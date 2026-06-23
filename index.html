@@ -3,114 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لياقة الشعر - تطبيق المحاورة الذكي</title>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<title>لياقة الشعر البدوي - المحاورة الفاخرة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Reem+Kufi:wght@400;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'Tajawal', sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    font-family: 'Tajawal', 'Reem Kufi', sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
     min-height: 100vh;
     color: #fff;
     overflow-x: hidden;
-}
-
-.container { max-width: 900px; margin: 0 auto; padding: 20px; }
-
-.header {
-    text-align: center;
-    padding: 30px 0;
     position: relative;
 }
 
-.header::before {
-    content: "✦";
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
-    color: #e94560;
-    animation: pulse 2s infinite;
+/* خلفية ذهبية متحركة */
+.gold-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #d4af37;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37, 0 0 30px #d4af37;
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ===== HEADER ===== */
+.header {
+    text-align: center;
+    padding: 40px 0 30px;
+    position: relative;
+}
+
+.header::before, .header::after {
+    content: "✦";
+    position: absolute;
+    top: 20px;
+    font-size: 20px;
+    color: #d4af37;
+    animation: sparkle 2s infinite alternate;
+}
+
+.header::before { left: 30%; }
+.header::after { right: 30%; }
+
+@keyframes sparkle {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.5); text-shadow: 0 0 20px #d4af37; }
 }
 
 .header h1 {
-    font-size: 2.8rem;
-    font-weight: 900;
-    color: #e94560;
-    text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #d4af37;
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.3);
     margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.header h1 span {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
 .header p {
-    font-size: 1.1rem;
-    color: #a0a0c0;
+    font-size: 1.2rem;
+    color: #c0a060;
     font-weight: 400;
+    letter-spacing: 1px;
 }
 
+/* ===== CARDS ===== */
 .card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(233, 69, 96, 0.2);
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 2px solid #d4af37;
     border-radius: 20px;
     padding: 30px;
-    margin: 20px 0;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin: 25px 0;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 0 20px rgba(212, 175, 55, 0.1),
+        0 0 40px rgba(212, 175, 55, 0.05),
+        inset 0 0 60px rgba(212, 175, 55, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, #fff, #d4af37, transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .card-title {
-    font-size: 1.3rem;
-    color: #e94560;
-    margin-bottom: 15px;
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 1.4rem;
+    color: #d4af37;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    font-weight: 700;
 }
 
 .card-title::before {
-    content: "▸";
-    color: #e94560;
+    content: "◆";
+    color: #d4af37;
+    font-size: 1rem;
+    animation: rotate 4s linear infinite;
 }
 
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ===== TIMER GRID ===== */
 .timer-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 20px;
 }
 
 .timer-btn {
-    background: rgba(233, 69, 96, 0.1);
-    border: 2px solid rgba(233, 69, 96, 0.3);
-    color: #fff;
-    padding: 12px;
-    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    padding: 14px 8px;
+    border-radius: 14px;
     font-family: 'Tajawal', sans-serif;
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.timer-btn:hover { background: rgba(233, 69, 96, 0.3); border-color: #e94560; }
+.timer-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.timer-btn:hover::after {
+    width: 200px;
+    height: 200px;
+}
+
+.timer-btn:hover {
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    transform: translateY(-3px);
+}
 
 .timer-btn.selected {
-    background: rgba(233, 69, 96, 0.5);
-    border-color: #e94560;
-    box-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+    background: linear-gradient(145deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    border-color: #d4af37;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 0 60px rgba(212, 175, 55, 0.2);
+    font-weight: 900;
 }
 
+/* ===== TOPIC DISPLAY ===== */
 .topic-display {
-    background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(255, 107, 107, 0.1));
-    border: 2px solid rgba(233, 69, 96, 0.3);
-    border-radius: 16px;
-    padding: 25px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(255, 255, 255, 0.02));
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    border-radius: 18px;
+    padding: 30px;
     text-align: center;
     margin: 20px 0;
     position: relative;
@@ -120,97 +226,104 @@ body {
 .topic-display::before {
     content: '"';
     position: absolute;
-    top: -10px;
-    right: 20px;
-    font-size: 80px;
-    color: rgba(233, 69, 96, 0.2);
+    top: -15px;
+    right: 25px;
+    font-size: 100px;
+    color: rgba(212, 175, 55, 0.15);
     font-family: 'Amiri', serif;
     line-height: 1;
 }
 
 .topic-text {
-    font-size: 1.6rem;
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 2rem;
     font-weight: 700;
-    color: #fff;
+    color: #d4af37;
     line-height: 1.8;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
 }
 
+/* ===== AI RESPONSE ===== */
 .ai-response {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(233, 69, 96, 0.2);
-    border-radius: 16px;
-    padding: 20px;
-    margin: 15px 0;
+    background: linear-gradient(145deg, rgba(0,0,0,0.4), rgba(212, 175, 55, 0.05));
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 18px;
+    padding: 25px;
+    margin: 20px 0;
     position: relative;
 }
 
 .ai-label {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(233, 69, 96, 0.2);
-    color: #e94560;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.9rem;
+    gap: 8px;
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+    color: #d4af37;
+    padding: 6px 16px;
+    border-radius: 25px;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
-.ai-label::before { content: "🤖"; }
+.ai-label::before { content: "🐪"; font-size: 1.2rem; }
 
 .ai-verse {
-    font-size: 1.3rem;
-    line-height: 2;
-    color: #e0e0e0;
+    font-size: 1.4rem;
+    line-height: 2.2;
+    color: #f0e6d2;
     font-family: 'Amiri', serif;
-    margin: 10px 0;
+    margin: 15px 0;
+    text-align: center;
 }
 
-.verse-input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(233, 69, 96, 0.2);
-    border-radius: 16px;
-    padding: 18px;
-    color: #fff;
-    font-family: 'Amiri', serif;
-    font-size: 1.2rem;
-    line-height: 2;
-    resize: none;
-    transition: border-color 0.3s;
-    direction: rtl;
-}
-
-.verse-input:focus {
-    outline: none;
-    border-color: #e94560;
-    box-shadow: 0 0 15px rgba(233, 69, 96, 0.2);
-}
-
-.verse-input::placeholder { color: #666; }
-
+/* ===== TIMER CIRCLE ===== */
 .timer-circle-container {
     text-align: center;
-    margin: 20px 0;
+    margin: 25px 0;
 }
 
 .timer-circle {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    border: 4px solid rgba(233, 69, 96, 0.3);
+    border: 4px solid rgba(212, 175, 55, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
     position: relative;
-    background: rgba(0, 0, 0, 0.3);
-    transition: border-color 0.3s;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1), rgba(0,0,0,0.3));
+    transition: all 0.3s;
 }
 
-.timer-circle.warning { border-color: #ffc107; box-shadow: 0 0 20px rgba(255, 193, 7, 0.3); }
-.timer-circle.danger { border-color: #e94560; box-shadow: 0 0 20px rgba(233, 69, 96, 0.5); animation: shake 0.5s infinite; }
+.timer-circle::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #d4af37;
+    border-right-color: #d4af37;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.timer-circle.warning {
+    border-color: #ffc107;
+    box-shadow: 0 0 30px rgba(255, 193, 7, 0.4);
+}
+
+.timer-circle.danger {
+    border-color: #e74c3c;
+    box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+    animation: shake 0.5s infinite;
+}
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -218,38 +331,78 @@ body {
     75% { transform: translateX(5px); }
 }
 
-.timer-count { font-size: 2.5rem; font-weight: 900; color: #e94560; }
-.timer-label { font-size: 0.9rem; color: #888; margin-top: 5px; }
+.timer-count {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #d4af37;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
 
+.timer-label {
+    font-size: 1rem;
+    color: #c0a060;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* ===== INPUT ===== */
+.verse-input {
+    width: 100%;
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 18px;
+    padding: 22px;
+    color: #f0e6d2;
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem;
+    line-height: 2.2;
+    resize: none;
+    transition: all 0.3s;
+    direction: rtl;
+}
+
+.verse-input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.2), inset 0 0 30px rgba(212, 175, 55, 0.05);
+}
+
+.verse-input::placeholder { color: #666; }
+
+/* ===== BUTTONS ===== */
 .controls {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 20px 0;
+    margin: 25px 0;
 }
 
 .btn {
-    padding: 14px 35px;
+    padding: 16px 40px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-family: 'Tajawal', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
+    letter-spacing: 1px;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #e94560, #ff6b6b);
-    color: #fff;
+    background: linear-gradient(145deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    border: 2px solid #d4af37;
 }
 
 .btn-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(233, 69, 96, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 35px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.2);
+    background: linear-gradient(145deg, #e5c048, #c9a32a);
 }
 
 .btn-primary:disabled {
@@ -259,135 +412,207 @@ body {
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    color: #d4af37;
+    border: 2px solid rgba(212, 175, 55, 0.4);
 }
 
-.btn-secondary:hover { background: rgba(255, 255, 255, 0.2); border-color: #e94560; }
+.btn-secondary:hover:not(:disabled) {
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+    border-color: #d4af37;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+}
 
+/* ===== FEEDBACK ===== */
 .feedback {
-    border-radius: 16px;
-    padding: 20px;
-    margin: 15px 0;
+    border-radius: 18px;
+    padding: 25px;
+    margin: 20px 0;
     display: none;
-    animation: slideIn 0.5s ease;
+    animation: slideIn 0.6s ease;
+    border: 2px solid;
 }
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .feedback.success {
-    background: rgba(46, 204, 113, 0.1);
-    border: 2px solid #2ecc71;
+    background: linear-gradient(145deg, rgba(46, 204, 113, 0.08), rgba(46, 204, 113, 0.03));
+    border-color: #2ecc71;
     display: block;
+    box-shadow: 0 0 30px rgba(46, 204, 113, 0.1);
 }
 
 .feedback.error {
-    background: rgba(233, 69, 96, 0.1);
-    border: 2px solid #e94560;
+    background: linear-gradient(145deg, rgba(231, 76, 60, 0.08), rgba(231, 76, 60, 0.03));
+    border-color: #e74c3c;
     display: block;
+    box-shadow: 0 0 30px rgba(231, 76, 60, 0.1);
 }
 
 .feedback-title {
-    font-size: 1.2rem;
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .feedback.success .feedback-title { color: #2ecc71; }
-.feedback.error .feedback-title { color: #e94560; }
+.feedback.error .feedback-title { color: #e74c3c; }
 
 .feedback-details {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #ddd;
+    font-family: 'Amiri', serif;
 }
 
-.feedback-details ul {
-    list-style: none;
-    padding: 0;
-}
+.feedback-details ul { list-style: none; padding: 0; }
 
 .feedback-details li {
-    padding: 5px 0;
-    padding-right: 20px;
+    padding: 8px 0;
+    padding-right: 25px;
     position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
+
+.feedback-details li:last-child { border-bottom: none; }
 
 .feedback-details li::before {
-    content: "•";
+    content: "◆";
     position: absolute;
     right: 0;
-    color: #e94560;
+    color: #d4af37;
+    font-size: 0.8rem;
 }
 
+/* ===== STATS ===== */
 .stats {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     margin: 20px 0;
     flex-wrap: wrap;
 }
 
 .stat-box {
     text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px 25px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
+    padding: 20px 30px;
+    border-radius: 16px;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    min-width: 120px;
+    transition: all 0.3s;
+}
+
+.stat-box:hover {
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    transform: translateY(-3px);
 }
 
 .stat-value {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 900;
-    color: #e94560;
+    color: #d4af37;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-.stat-label { font-size: 0.9rem; color: #888; }
+.stat-label {
+    font-size: 0.95rem;
+    color: #c0a060;
+    margin-top: 5px;
+    font-weight: 500;
+}
 
+/* ===== PROGRESS BAR ===== */
 .progress-bar {
     width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    margin: 15px 0;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    margin: 20px 0;
     overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #e94560, #ff6b6b);
-    border-radius: 3px;
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, #d4af37, #f0d878, #d4af37);
+    border-radius: 4px;
+    transition: width 0.5s ease;
     width: 0%;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
+/* ===== STARS ===== */
 .stars {
     text-align: center;
-    font-size: 2rem;
-    margin: 10px 0;
-    letter-spacing: 5px;
+    font-size: 2.5rem;
+    margin: 15px 0;
+    letter-spacing: 8px;
 }
 
-.star { color: #ffd700; }
+.star { 
+    color: #d4af37; 
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    animation: starPulse 2s infinite alternate;
+}
 
+@keyframes starPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
+}
+
+/* ===== HINT BOX ===== */
+.hint-box {
+    background: linear-gradient(145deg, rgba(255, 193, 7, 0.08), rgba(255, 193, 7, 0.02));
+    border: 2px solid rgba(255, 193, 7, 0.3);
+    border-radius: 14px;
+    padding: 18px;
+    margin: 15px 0;
+    font-size: 1.1rem;
+    color: #ffc107;
+    display: none;
+    font-family: 'Amiri', serif;
+    line-height: 1.8;
+}
+
+/* ===== DIFFICULTY BADGE ===== */
+.difficulty-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-right: 10px;
+    border: 2px solid;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.difficulty-easy { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border-color: rgba(46, 204, 113, 0.3); }
+.difficulty-medium { background: rgba(255, 193, 7, 0.1); color: #ffc107; border-color: rgba(255, 193, 7, 0.3); }
+.difficulty-hard { background: rgba(231, 76, 60, 0.1); color: #e74c3c; border-color: rgba(231, 76, 60, 0.3); }
+
+/* ===== LOADING ===== */
 .loading {
     display: inline-flex;
-    gap: 5px;
+    gap: 8px;
+    align-items: center;
 }
 
 .loading span {
-    width: 10px;
-    height: 10px;
-    background: #e94560;
+    width: 12px;
+    height: 12px;
+    background: #d4af37;
     border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out;
+    box-shadow: 0 0 10px #d4af37;
 }
 
 .loading span:nth-child(1) { animation-delay: 0s; }
@@ -396,79 +621,98 @@ body {
 
 @keyframes bounce {
     0%, 80%, 100% { transform: scale(1); }
-    40% { transform: scale(1.5); }
+    40% { transform: scale(1.5); box-shadow: 0 0 20px #d4af37; }
 }
 
-.hidden { display: none !important; }
-
+/* ===== CONFETTI ===== */
 .confetti {
     position: fixed;
-    width: 10px;
-    height: 10px;
-    top: -10px;
+    width: 12px;
+    height: 12px;
+    top: -15px;
     animation: confettiFall 3s linear forwards;
     z-index: 1000;
+    border-radius: 2px;
 }
 
 @keyframes confettiFall {
     to {
-        transform: translateY(100vh) rotate(720deg);
+        transform: translateY(100vh) rotate(1080deg);
         opacity: 0;
     }
 }
 
-.hint-box {
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: 12px;
-    padding: 15px;
-    margin: 10px 0;
-    font-size: 0.95rem;
-    color: #ffc107;
-    display: none;
-}
+/* ===== HIDDEN ===== */
+.hidden { display: none !important; }
 
-.difficulty-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-right: 10px;
-}
-
-.difficulty-easy { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
-.difficulty-medium { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
-.difficulty-hard { background: rgba(233, 69, 96, 0.2); color: #e94560; }
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
-    .header h1 { font-size: 2rem; }
+    .header h1 { font-size: 2.2rem; }
     .timer-grid { grid-template-columns: repeat(3, 1fr); }
-    .timer-btn { font-size: 0.9rem; padding: 10px; }
-    .topic-text { font-size: 1.2rem; }
-    .timer-circle { width: 100px; height: 100px; }
-    .timer-count { font-size: 2rem; }
-    .stats { gap: 15px; }
+    .timer-btn { font-size: 0.9rem; padding: 12px 6px; }
+    .topic-text { font-size: 1.4rem; }
+    .timer-circle { width: 110px; height: 110px; }
+    .timer-count { font-size: 2.5rem; }
+    .stats { gap: 12px; }
+    .stat-box { padding: 15px 20px; min-width: 100px; }
+    .btn { padding: 14px 28px; font-size: 1rem; }
+    .ai-verse { font-size: 1.1rem; }
 }
+
+/* ===== DECORATIVE ELEMENTS ===== */
+.gold-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, #fff, #d4af37, transparent);
+    margin: 20px 0;
+    opacity: 0.5;
+}
+
+.corner-decoration {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #d4af37;
+    opacity: 0.3;
+}
+
+.corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.corner-tr { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+.corner-bl { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+.corner-br { bottom: 10px; right: 10px; border-left: none; border-top: none; }
 </style>
 <base target="_blank">
 </head>
 <body>
 
+<!-- خلفية ذهبية متحركة -->
+<div class="gold-particles" id="goldParticles"></div>
+
 <div class="container">
+    <!-- HEADER -->
     <div class="header">
-        <h1>لياقة الشعر</h1>
-        <p>تطبيق المحاورة الذكي - اختبر قدراتك الشعرية</p>
+        <h1><span>لياقة</span> الشعر البدوي</h1>
+        <p>تطبيق المحاورة الفاخر - اختبر قدراتك الشعرية</p>
     </div>
 
+    <!-- TIMER SELECTION -->
     <div class="card">
+        <div class="corner-decoration corner-tl"></div>
+        <div class="corner-decoration corner-tr"></div>
+        <div class="corner-decoration corner-bl"></div>
+        <div class="corner-decoration corner-br"></div>
         <div class="card-title">اختر مدة التحدي</div>
         <div class="timer-grid" id="timerGrid"></div>
         <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
     </div>
 
+    <!-- GAME AREA -->
     <div class="card" id="gameArea" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <div class="corner-decoration corner-tl"></div>
+        <div class="corner-decoration corner-tr"></div>
+        <div class="corner-decoration corner-bl"></div>
+        <div class="corner-decoration corner-br"></div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
             <div class="card-title" style="margin:0;">الموضوع</div>
             <span class="difficulty-badge" id="diffBadge">سهل</span>
         </div>
@@ -491,9 +735,9 @@ body {
 
         <div class="hint-box" id="hintBox"></div>
 
-        <div style="margin: 20px 0;">
+        <div style="margin: 25px 0;">
             <div class="card-title">رد ببيتين</div>
-            <textarea class="verse-input" id="userVerse" rows="3" placeholder="اكتب بيتين شعر على الوزن والقافية..."></textarea>
+            <textarea class="verse-input" id="userVerse" rows="3" placeholder="اكتب بيتين شعر بدوي على الوزن والقافية..."></textarea>
         </div>
 
         <div class="controls">
@@ -509,7 +753,12 @@ body {
         </div>
     </div>
 
+    <!-- STATS -->
     <div class="card">
+        <div class="corner-decoration corner-tl"></div>
+        <div class="corner-decoration corner-tr"></div>
+        <div class="corner-decoration corner-bl"></div>
+        <div class="corner-decoration corner-br"></div>
         <div class="card-title">إحصائياتك</div>
         <div class="stats">
             <div class="stat-box">
@@ -529,126 +778,182 @@ body {
                 <div class="stat-label">أفضل سلسلة</div>
             </div>
         </div>
+        <div class="gold-line"></div>
         <div class="stars" id="starsDisplay"></div>
     </div>
 </div>
 
 <script>
-// ==================== قاعدة بيانات المواضيع والأبيات ====================
-const topicsDB = [
+// ==================== قاعدة بيانات الشعر البدوي ====================
+const bedouinTopics = [
     {
-        topic: "الشجاعة",
+        topic: "الفخر بالأصل",
         difficulty: "easy",
         aiVerses: [
-            "إذا الشعبُ يوماً أرادَ الحياةَ فلا بُدَّ أنْ يستجيبَ القدرُ",
-            "وما النصرُ إلاَّ من عندِ اللهِ لا يُغني عنكَ الفخرُ"
-        ],
-        qafiya: "ر",
-        wazn: "فعولن مفاعيلن فعولن مفاعيلن",
-        hints: ["تنتهي بـ 'ر'", "الوزن: طويل", "فكّر في 'القدر' و 'الفخر'"]
-    },
-    {
-        topic: "الأمل",
-        difficulty: "easy",
-        aiVerses: [
-            "ولا تيأسْ من روحِ اللهِ إنَّهُ لا ييأسُ من روحِ اللهِ إلاَّ القومُ الكافرون",
-            "فإنَّ معَ العسرِ يُسراً وإنَّ معَ العسرِ يُسراً لنَ تجدَ تبديلاً لكلماتِ اللهِ"
+            "الطيب ساسٍ والتواريخ تقراه",
+            "وسجلّنا بالدم والمجد مقرون"
         ],
         qafiya: "ن",
         wazn: "مفاعيلن فعولن مفاعيلن فعولن",
-        hints: ["تنتهي بـ 'ن'", "الوزن: بسيط", "فكّر في 'الكافرون'"]
+        hints: ["القافية: 'ن'", "الوزن: بسيط", "فكّر في 'الفخر' و 'الأصل'"]
     },
     {
-        topic: "الصبر",
+        topic: "الصحراء والإبل",
         difficulty: "easy",
         aiVerses: [
-            "واصبرْ لما أصابكَ إنَّ الصبرَ مفتاحَ الفرجِ يا صاحبي",
-            "فإنَّ اللهَ معَ الصابرينَ وإنَّ اللهَ لا يضيعُ أجرَ المُحسنين"
+            "بدوٍ ربينا بين صلفات الرمال",
+            "نضحك بوجه الريح لو ثار الاعجاج"
+        ],
+        qafiya: "ج",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ج'", "الوزن: بسيط", "فكّر في 'الرمال' و 'الإبل'"]
+    },
+    {
+        topic: "الكرم والضيافة",
+        difficulty: "easy",
+        aiVerses: [
+            "الضو شعّمها وكبّر لهبها",
+            "خله على روس المراقيب مصباح"
+        ],
+        qafiya: "ح",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ح'", "الوزن: بسيط", "فكّر في 'النار' و 'الضيف'"]
+    },
+    {
+        topic: "الشجاعة والمرجلة",
+        difficulty: "medium",
+        aiVerses: [
+            "المرجلة قصرٍ تعلّى مبنّاه",
+            "صعبٍ على الّلي دون الأمجاد يرضون"
+        ],
+        qafiya: "ن",
+        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
+        hints: ["القافية: 'ن'", "الوزن: كامل", "فكّر في 'الشجاعة' و 'المرجلة'"]
+    },
+    {
+        topic: "الغزل البدوي",
+        difficulty: "medium",
+        aiVerses: [
+            "يا سارقاً قلبي يا سارقاً قلبي أتتك جوارحي",
+            "طوعاً بلا أمر ولا استئذانـي"
         ],
         qafiya: "ي",
-        wazn: "مستفعلن فاعلن مستفعلن فاعلن",
-        hints: ["تنتهي بـ 'ي'", "الوزن: متقارب", "فكّر في 'يا صاحبي'"]
-    },
-    {
-        topic: "العلم",
-        difficulty: "medium",
-        aiVerses: [
-            "طلبوا العلمَ من المهدِ إلى اللحدِ فإنَّ العلمَ نورٌ يهدي إلى السدادِ",
-            "ولا تزالُ تعلمُ حتى تُدركَ المنى فإنَّ طلبَ العلمِ فريضةٌ على كلِّ مسلمٍ"
-        ],
-        qafiya: "د",
         wazn: "مفاعيلن فعولن مفاعيلن فعولن",
-        hints: ["تنتهي بـ 'د'", "الوزن: بسيط", "فكّر في 'السداد'"]
+        hints: ["القافية: 'ي'", "الوزن: بسيط", "فكّر في 'الحب' و 'القلب'"]
     },
     {
-        topic: "الوطن",
+        topic: "الترحال والسفر",
         difficulty: "medium",
         aiVerses: [
-            "يا وطني أنتَ العشقُ الذي لا ينتهي وأنتَ الحبُّ الذي في القلبِ يسري",
-            "فديتُكَ بالروحِ والدمِ يا بلادي وما عزَّ على القلبِ أنْ يُفارقَكَ دُري"
+            "برقٍ سرى من يمّة الشرق مجلّي",
+            "قاد الضعاين يطردون الخيالي"
         ],
         qafiya: "ي",
-        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
-        hints: ["تنتهي بـ 'ي'", "الوزن: كامل", "فكّر في 'يسري' و 'دري'"]
-    },
-    {
-        topic: "الصداقة",
-        difficulty: "medium",
-        aiVerses: [
-            "الصديقُ الحقُّ نعمةٌ من نعمِ اللهِ فاحفظْهُ كما تحفظُ عينيكَ من الردى",
-            "فإنَّ الصديقَ وقتَ الشدائدِ يُعانِ ولا يخذلكَ حينَ تضيقُ الأرضُ بالعدا"
-        ],
-        qafiya: "ى",
         wazn: "مفاعيلن فعولن مفاعيلن فعولن",
-        hints: ["تنتهي بـ 'ى'", "الوزن: بسيط", "فكّر في 'الردى' و 'العدا'"]
+        hints: ["القافية: 'ي'", "الوزن: بسيط", "فكّر في 'السفر' و 'البرق'"]
     },
     {
-        topic: "العدل",
+        topic: "الوفاء والعهد",
         difficulty: "hard",
         aiVerses: [
-            "العدلُ أساسُ الملكِ وبهِ تَقومُ الدولُ ويَستقرُّ الأمنُ والسلامُ",
-            "فإذا غابَ العدلُ في أرضٍ فاعلمْ أنَّ الظلمَ سيدُها والظلامُ"
+            "الجار لو جار الزمان وحميته",
+            "يرقد قرير العين في ظل شاربك"
         ],
-        qafiya: "م",
-        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
-        hints: ["تنتهي بـ 'م'", "الوزن: كامل", "فكّر في 'السلام' و 'الظلام'"]
+        qafiya: "ك",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ك'", "الوزن: بسيط", "فكّر في 'الوفاء' و 'العهد'"]
     },
     {
-        topic: "الكرم",
+        topic: "الشوق والحنين",
         difficulty: "hard",
         aiVerses: [
-            "كرِّمْ ضيفَكَ وافتحْ لهُ قلبَكَ فإنَّ الكريمَ يُضيءُ الدنيا بنورِهِ",
-            "ولا تبخلْ بما آتاكَ اللهُ من فضلٍ فإنَّ البخلَ يُطفئُ نارَ السرورِ"
+            "روّح علي من ليل الأشواق ثلثين",
+            "وأقبل عليّ ثلث طوا ضيقتي طيّ"
+        ],
+        qafiya: "ي",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ي'", "الوزن: بسيط", "فكّر في 'الشوق' و 'الحنين'"]
+    },
+    {
+        topic: "الصبر على البلاء",
+        difficulty: "hard",
+        aiVerses: [
+            "ياما سرينا والزمن ليله يطول",
+            "ندعس على جمر العنا والمضرّه"
         ],
         qafiya: "ر",
         wazn: "مفاعيلن فعولن مفاعيلن فعولن",
-        hints: ["تنتهي بـ 'ر'", "الوزن: بسيط", "فكّر في 'نورِهِ' و 'السرورِ'"]
+        hints: ["القافية: 'ر'", "الوزن: بسيط", "فكّر في 'الصبر' و 'البلاء'"]
     },
     {
-        topic: "الزمن",
-        difficulty: "hard",
-        aiVerses: [
-            "يا أيها الزمانُ كمْ خدعتَ الناسَ وأوهَمتَهمْ أنَّ الأيامَ تُعادُ",
-            "فلا تثقْ بالزمنِ فإنَّهُ يَنقلبُ في لحظةٍ ويُصبحُ فؤادُ"
-        ],
-        qafiya: "د",
-        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
-        hints: ["تنتهي بـ 'د'", "الوزن: كامل", "فكّر في 'تُعادُ' و 'فؤادُ'"]
-    },
-    {
-        topic: "الفخر",
+        topic: "الطيب والأصل",
         difficulty: "medium",
         aiVerses: [
-            "نحنُ العربُ أبناءُ الصحراءِ والمجدِ ونحنُ من حملوا الرسالةَ للورى",
-            "فإذا ذكرَ التاريخُ أمجادَنا فاعلمْ أنَّا شمسُ الدنيا ونورُها"
+            "ساسي عالي بناه",
+            "والأجيال ايخلّدونه"
         ],
-        qafiya: "ى",
+        qafiya: "ه",
+        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
+        hints: ["القافية: 'ه'", "الوزن: كامل", "فكّر في 'الطيب' و 'الأصل'"]
+    },
+    {
+        topic: "البرق والمطر",
+        difficulty: "easy",
+        aiVerses: [
+            "كِنّ البروق اللي بالآفاق لاحت",
+            "تنفض غبار الياس عن كل الأرواح"
+        ],
+        qafiya: "ح",
         wazn: "مفاعيلن فعولن مفاعيلن فعولن",
-        hints: ["تنتهي بـ 'ى'", "الوزن: بسيط", "فكّر في 'للورى' و 'ونورُها'"]
+        hints: ["القافية: 'ح'", "الوزن: بسيط", "فكّر في 'البرق' و 'المطر'"]
+    },
+    {
+        topic: "الليل والنجوم",
+        difficulty: "medium",
+        aiVerses: [
+            "لا سرى الراعي وطابت سريته",
+            "يهتدي بالنجم لا خيّم مساه"
+        ],
+        qafiya: "ه",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ه'", "الوزن: بسيط", "فكّر في 'الليل' و 'النجوم'"]
+    },
+    {
+        topic: "الإبل والمطيّة",
+        difficulty: "easy",
+        aiVerses: [
+            "يا طالبين الزين هذي عربها",
+            "حرة وتاطا في دلال وغروري"
+        ],
+        qafiya: "ي",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ي'", "الوزن: بسيط", "فكّر في 'الإبل' و 'الذلول'"]
+    },
+    {
+        topic: "الشعر والقصيد",
+        difficulty: "medium",
+        aiVerses: [
+            "ربيت بذرى بيت الشعر والظما والبير",
+            "وبين النياق المكرمات ونبا العربان"
+        ],
+        qafiya: "ن",
+        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
+        hints: ["القافية: 'ن'", "الوزن: كامل", "فكّر في 'الشعر' و 'القصيد'"]
+    },
+    {
+        topic: "الحرية والكرامة",
+        difficulty: "hard",
+        aiVerses: [
+            "الروح حرة والكرامة راس مال",
+            "ما نقبل الذلة ولو هي بديباج"
+        ],
+        qafiya: "ج",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["القافية: 'ج'", "الوزن: بسيط", "فكّر في 'الحرية' و 'الكرامة'"]
     }
 ];
 
-// ==================== قاعدة بيانات الأوزان ====================
+// ==================== قاعدة بيانات الأوزان البدوية ====================
 const awzanDB = {
     "طويل": { pattern: "فعولن مفاعيلن فعولن مفاعيلن", example: "على قدرِ أهلِ العزمِ تأتي العزائمُ" },
     "بسيط": { pattern: "مفاعيلن فعولن مفاعيلن فعولن", example: "قدِمْتَ زائراً وأنتَ من قومِ نزارٍ" },
@@ -677,14 +982,30 @@ let gameState = {
     hintIndex: 0
 };
 
+// ==================== تهيئة الخلفية الذهبية ====================
+function initGoldParticles() {
+    const container = document.getElementById('goldParticles');
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        particle.style.width = (Math.random() * 4 + 2) + 'px';
+        particle.style.height = particle.style.width;
+        container.appendChild(particle);
+    }
+}
+
 // ==================== تهيئة الواجهة ====================
 function init() {
+    initGoldParticles();
     const grid = document.getElementById('timerGrid');
     const times = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     times.forEach(t => {
         const btn = document.createElement('button');
         btn.className = 'timer-btn' + (t === 30 ? ' selected' : '');
-        btn.textContent = t + ' ثانية';
+        btn.textContent = t + ' ث';
         btn.onclick = () => selectTime(t, btn);
         grid.appendChild(btn);
     });
@@ -702,31 +1023,27 @@ function selectTime(time, btn) {
 function startGame() {
     if (gameState.isPlaying) return;
 
-    // اختيار موضوع عشوائي
-    gameState.currentTopic = topicsDB[Math.floor(Math.random() * topicsDB.length)];
+    gameState.currentTopic = bedouinTopics[Math.floor(Math.random() * bedouinTopics.length)];
     gameState.isPlaying = true;
     gameState.hintUsed = false;
     gameState.hintIndex = 0;
     gameState.timeLeft = gameState.selectedTime;
 
-    // تحديث الواجهة
     document.getElementById('topicText').textContent = gameState.currentTopic.topic;
     document.getElementById('diffBadge').textContent = 
         gameState.currentTopic.difficulty === 'easy' ? 'سهل' :
         gameState.currentTopic.difficulty === 'medium' ? 'متوسط' : 'صعب';
     document.getElementById('diffBadge').className = 'difficulty-badge difficulty-' + gameState.currentTopic.difficulty;
 
-    // عرض بيت الذكاء الاصطناعي
     const aiArea = document.getElementById('aiArea');
     const aiVerse = document.getElementById('aiVerse');
     aiVerse.innerHTML = '<div class="loading"><span></span><span></span><span></span></div>';
     aiArea.style.display = 'block';
 
     setTimeout(() => {
-        aiVerse.textContent = gameState.currentTopic.aiVerses.join('\n');
+        aiVerse.innerHTML = gameState.currentTopic.aiVerses.map(v => '<div>' + v + '</div>').join('');
     }, 1500);
 
-    // تفعيل الأزرار
     document.getElementById('startBtn').disabled = true;
     document.getElementById('startBtn').textContent = 'جاري اللعب...';
     document.getElementById('submitBtn').disabled = false;
@@ -737,7 +1054,6 @@ function startGame() {
     document.getElementById('feedbackArea').style.display = 'none';
     document.getElementById('hintBox').style.display = 'none';
 
-    // بدء العداد
     startTimer();
 }
 
@@ -804,7 +1120,6 @@ function submitVerse() {
     const analysis = analyzeVerse(userText, gameState.currentTopic);
 
     if (analysis.isCorrect) {
-        // نجاح
         const timeBonus = Math.floor(gameState.timeLeft / 5);
         const difficultyMultiplier = 
             gameState.currentTopic.difficulty === 'easy' ? 1 :
@@ -826,7 +1141,6 @@ function submitVerse() {
 
         createConfetti();
     } else {
-        // فشل
         gameState.streak = 0;
         showFeedback('error', '❌ فيه أخطاء', analysis.errors);
     }
@@ -835,13 +1149,12 @@ function submitVerse() {
     resetControls();
 }
 
-// ==================== تحليل البيت (الذكاء الاصطناعي المحاكي) ====================
+// ==================== تحليل البيت ====================
 function analyzeVerse(text, topic) {
     const lines = text.split('\n').filter(l => l.trim().length > 0);
     const errors = [];
     let isCorrect = true;
 
-    // التحقق من عدد الأبيات
     if (lines.length < 2) {
         errors.push('يجب أن تكتب بيتين (سطرين) على الأقل');
         isCorrect = false;
@@ -851,7 +1164,6 @@ function analyzeVerse(text, topic) {
         isCorrect = false;
     }
 
-    // التحقق من القافية
     const lastChars = lines.map(l => {
         const clean = l.replace(/[ً-ٰٟ]/g, '').trim();
         return clean.charAt(clean.length - 1);
@@ -863,7 +1175,6 @@ function analyzeVerse(text, topic) {
         isCorrect = false;
     }
 
-    // التحقق من الوزن (تقريبي)
     const waznMatch = checkWaznApproximate(text, topic.wazn);
     if (!waznMatch) {
         errors.push('الوزن غير متطابق. الوزن المطلوب: ' + topic.wazn);
@@ -871,7 +1182,6 @@ function analyzeVerse(text, topic) {
         isCorrect = false;
     }
 
-    // التحقق من الطول
     lines.forEach((line, i) => {
         const words = line.trim().split(/\s+/);
         if (words.length < 6) {
@@ -894,11 +1204,9 @@ function analyzeVerse(text, topic) {
 }
 
 function checkWaznApproximate(text, expectedWazn) {
-    // تحليل تقريبي للوزن بناءً على عدد المقاطع الصوتية
     const lines = text.split('\n').filter(l => l.trim());
     if (lines.length < 2) return false;
 
-    // عدد الحركات في كل سطر (تقريبي)
     const syllableCounts = lines.map(line => {
         let count = 0;
         const chars = line.replace(/[\s\u064B-\u065F\u0670]/g, '');
@@ -910,10 +1218,6 @@ function checkWaznApproximate(text, expectedWazn) {
         return count;
     });
 
-    // الوزن الطويل يحتاج ~24-28 حركة
-    // الوزن البسيط يحتاج ~20-24 حركة
-    // الوزن المتقارب يحتاج ~16-20 حركة
-
     const avgSyllables = syllableCounts.reduce((a, b) => a + b, 0) / syllableCounts.length;
 
     if (expectedWazn.includes('طويل') && avgSyllables >= 22) return true;
@@ -921,7 +1225,7 @@ function checkWaznApproximate(text, expectedWazn) {
     if (expectedWazn.includes('متقارب') && avgSyllables >= 14 && avgSyllables < 20) return true;
     if (expectedWazn.includes('كامل') && avgSyllables >= 20 && avgSyllables < 26) return true;
 
-    return avgSyllables >= 12; // قبول عام
+    return avgSyllables >= 12;
 }
 
 function getWaznExample(wazn) {
@@ -1003,21 +1307,22 @@ function updateStats() {
     document.getElementById('totalVal').textContent = gameState.total;
     document.getElementById('bestVal').textContent = gameState.bestStreak;
 
-    // النجوم
     const stars = Math.min(5, Math.floor(gameState.streak / 2));
     document.getElementById('starsDisplay').innerHTML = '⭐'.repeat(stars) + (stars === 0 ? '☆☆☆☆☆' : '');
 }
 
 // ==================== تأثيرات ====================
 function createConfetti() {
-    const colors = ['#e94560', '#ff6b6b', '#ffd700', '#2ecc71', '#3498db', '#9b59b6'];
-    for (let i = 0; i < 50; i++) {
+    const colors = ['#d4af37', '#f0d878', '#fff', '#2ecc71', '#e74c3c', '#3498db'];
+    for (let i = 0; i < 60; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
         confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
         confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.width = (Math.random() * 8 + 4) + 'px';
+        confetti.style.height = confetti.style.width;
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 4000);
     }
