@@ -723,8 +723,7 @@ function startGame() {
     aiArea.style.display = 'block';
 
     setTimeout(() => {
-        aiVerse.textContent = gameState.currentTopic.aiVerses.join('
-');
+        aiVerse.textContent = gameState.currentTopic.aiVerses.join('\n');
     }, 1500);
 
     // تفعيل الأزرار
@@ -838,8 +837,7 @@ function submitVerse() {
 
 // ==================== تحليل البيت (الذكاء الاصطناعي المحاكي) ====================
 function analyzeVerse(text, topic) {
-    const lines = text.split('
-').filter(l => l.trim().length > 0);
+    const lines = text.split('\n').filter(l => l.trim().length > 0);
     const errors = [];
     let isCorrect = true;
 
@@ -897,14 +895,13 @@ function analyzeVerse(text, topic) {
 
 function checkWaznApproximate(text, expectedWazn) {
     // تحليل تقريبي للوزن بناءً على عدد المقاطع الصوتية
-    const lines = text.split('
-').filter(l => l.trim());
+    const lines = text.split('\n').filter(l => l.trim());
     if (lines.length < 2) return false;
 
     // عدد الحركات في كل سطر (تقريبي)
     const syllableCounts = lines.map(line => {
         let count = 0;
-        const chars = line.replace(/[\sً-ٰٟ]/g, '');
+        const chars = line.replace(/[\s\u064B-\u065F\u0670]/g, '');
         for (let i = 0; i < chars.length; i++) {
             const c = chars[i];
             if ('اويى'.includes(c)) count++;
