@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لياقة الشعر - تطبيق المحاورة الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+.header {
+    text-align: center;
+    padding: 30px 0;
+    position: relative;
+}
+
+.header::before {
+    content: "✦";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: #e94560;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+}
+
+.header h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #e94560;
+    text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #a0a0c0;
+    font-weight: 400;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    font-size: 1.3rem;
+    color: #e94560;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-title::before {
+    content: "▸";
+    color: #e94560;
+}
+
+.timer-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.timer-btn {
+    background: rgba(233, 69, 96, 0.1);
+    border: 2px solid rgba(233, 69, 96, 0.3);
+    color: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.timer-btn:hover { background: rgba(233, 69, 96, 0.3); border-color: #e94560; }
+
+.timer-btn.selected {
+    background: rgba(233, 69, 96, 0.5);
+    border-color: #e94560;
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+}
+
+.topic-display {
+    background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(255, 107, 107, 0.1));
+    border: 2px solid rgba(233, 69, 96, 0.3);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.topic-display::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    font-size: 80px;
+    color: rgba(233, 69, 96, 0.2);
+    font-family: 'Amiri', serif;
+    line-height: 1;
+}
+
+.topic-text {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.8;
+}
+
+.ai-response {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.ai-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(233, 69, 96, 0.2);
+    color: #e94560;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.ai-label::before { content: "🤖"; }
+
+.ai-verse {
+    font-size: 1.3rem;
+    line-height: 2;
+    color: #e0e0e0;
+    font-family: 'Amiri', serif;
+    margin: 10px 0;
+}
+
+.verse-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(233, 69, 96, 0.2);
+    border-radius: 16px;
+    padding: 18px;
+    color: #fff;
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    line-height: 2;
+    resize: none;
+    transition: border-color 0.3s;
+    direction: rtl;
+}
+
+.verse-input:focus {
+    outline: none;
+    border-color: #e94560;
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.2);
+}
+
+.verse-input::placeholder { color: #666; }
+
+.timer-circle-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.timer-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(233, 69, 96, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    transition: border-color 0.3s;
+}
+
+.timer-circle.warning { border-color: #ffc107; box-shadow: 0 0 20px rgba(255, 193, 7, 0.3); }
+.timer-circle.danger { border-color: #e94560; box-shadow: 0 0 20px rgba(233, 69, 96, 0.5); animation: shake 0.5s infinite; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.timer-count { font-size: 2.5rem; font-weight: 900; color: #e94560; }
+.timer-label { font-size: 0.9rem; color: #888; margin-top: 5px; }
+
+.controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.btn {
+    padding: 14px 35px;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #e94560, #ff6b6b);
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(233, 69, 96, 0.6);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.2); border-color: #e94560; }
+
+.feedback {
+    border-radius: 16px;
+    padding: 20px;
+    margin: 15px 0;
+    display: none;
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback.success {
+    background: rgba(46, 204, 113, 0.1);
+    border: 2px solid #2ecc71;
+    display: block;
+}
+
+.feedback.error {
+    background: rgba(233, 69, 96, 0.1);
+    border: 2px solid #e94560;
+    display: block;
+}
+
+.feedback-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.feedback.success .feedback-title { color: #2ecc71; }
+.feedback.error .feedback-title { color: #e94560; }
+
+.feedback-details {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+.feedback-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.feedback-details li {
+    padding: 5px 0;
+    padding-right: 20px;
+    position: relative;
+}
+
+.feedback-details li::before {
+    content: "•";
+    position: absolute;
+    right: 0;
+    color: #e94560;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #e94560;
+}
+
+.stat-label { font-size: 0.9rem; color: #888; }
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e94560, #ff6b6b);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.stars {
+    text-align: center;
+    font-size: 2rem;
+    margin: 10px 0;
+    letter-spacing: 5px;
+}
+
+.star { color: #ffd700; }
+
+.loading {
+    display: inline-flex;
+    gap: 5px;
+}
+
+.loading span {
+    width: 10px;
+    height: 10px;
+    background: #e94560;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+.loading span:nth-child(1) { animation-delay: 0s; }
+.loading span:nth-child(2) { animation-delay: 0.2s; }
+.loading span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.5); }
+}
+
+.hidden { display: none !important; }
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confettiFall 3s linear forwards;
+    z-index: 1000;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.hint-box {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 0.95rem;
+    color: #ffc107;
+    display: none;
+}
+
+.difficulty-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.difficulty-easy { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.difficulty-medium { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+.difficulty-hard { background: rgba(233, 69, 96, 0.2); color: #e94560; }
+
+@media (max-width: 600px) {
+    .header h1 { font-size: 2rem; }
+    .timer-grid { grid-template-columns: repeat(3, 1fr); }
+    .timer-btn { font-size: 0.9rem; padding: 10px; }
+    .topic-text { font-size: 1.2rem; }
+    .timer-circle { width: 100px; height: 100px; }
+    .timer-count { font-size: 2rem; }
+    .stats { gap: 15px; }
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>لياقة الشعر</h1>
+        <p>تطبيق المحاورة الذكي - اختبر قدراتك الشعرية</p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">اختر مدة التحدي</div>
+        <div class="timer-grid" id="timerGrid"></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+    </div>
+
+    <div class="card" id="gameArea" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <div class="card-title" style="margin:0;">الموضوع</div>
+            <span class="difficulty-badge" id="diffBadge">سهل</span>
+        </div>
+
+        <div class="topic-display">
+            <div class="topic-text" id="topicText">اضغط "ابدأ" لتحصل على موضوع</div>
+        </div>
+
+        <div class="ai-response" id="aiArea" style="display:none;">
+            <div class="ai-label">الخصم (الذكاء الاصطناعي)</div>
+            <div class="ai-verse" id="aiVerse"></div>
+        </div>
+
+        <div class="timer-circle-container">
+            <div class="timer-circle" id="timerCircle">
+                <div class="timer-count" id="timerDisplay">--</div>
+            </div>
+            <div class="timer-label" id="timerLabel">ثانية</div>
+        </div>
+
+        <div class="hint-box" id="hintBox"></div>
+
+        <div style="margin: 20px 0;">
+            <div class="card-title">رد ببيتين</div>
+            <textarea class="verse-input" id="userVerse" rows="3" placeholder="اكتب بيتين شعر على الوزن والقافية..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn" onclick="startGame()">ابدأ</button>
+            <button class="btn btn-secondary" id="submitBtn" onclick="submitVerse()" disabled>ارسل الرد</button>
+            <button class="btn btn-secondary" id="hintBtn" onclick="showHint()" disabled>تلميح</button>
+            <button class="btn btn-secondary" id="skipBtn" onclick="skipRound()" disabled>تخطي</button>
+        </div>
+
+        <div class="feedback" id="feedbackArea">
+            <div class="feedback-title" id="feedbackTitle"></div>
+            <div class="feedback-details" id="feedbackDetails"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">إحصائياتك</div>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="scoreVal">0</div>
+                <div class="stat-label">النقاط</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="streakVal">0</div>
+                <div class="stat-label">السلسلة</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="totalVal">0</div>
+                <div class="stat-label">المحاولات</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="bestVal">0</div>
+                <div class="stat-label">أفضل سلسلة</div>
+            </div>
+        </div>
+        <div class="stars" id="starsDisplay"></div>
+    </div>
+</div>
+
+<script>
+// ==================== قاعدة بيانات المواضيع والأبيات ====================
+const topicsDB = [
+    {
+        topic: "الشجاعة",
+        difficulty: "easy",
+        aiVerses: [
+            "إذا الشعبُ يوماً أرادَ الحياةَ فلا بُدَّ أنْ يستجيبَ القدرُ",
+            "وما النصرُ إلاَّ من عندِ اللهِ لا يُغني عنكَ الفخرُ"
+        ],
+        qafiya: "ر",
+        wazn: "فعولن مفاعيلن فعولن مفاعيلن",
+        hints: ["تنتهي بـ 'ر'", "الوزن: طويل", "فكّر في 'القدر' و 'الفخر'"]
+    },
+    {
+        topic: "الأمل",
+        difficulty: "easy",
+        aiVerses: [
+            "ولا تيأسْ من روحِ اللهِ إنَّهُ لا ييأسُ من روحِ اللهِ إلاَّ القومُ الكافرون",
+            "فإنَّ معَ العسرِ يُسراً وإنَّ معَ العسرِ يُسراً لنَ تجدَ تبديلاً لكلماتِ اللهِ"
+        ],
+        qafiya: "ن",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["تنتهي بـ 'ن'", "الوزن: بسيط", "فكّر في 'الكافرون'"]
+    },
+    {
+        topic: "الصبر",
+        difficulty: "easy",
+        aiVerses: [
+            "واصبرْ لما أصابكَ إنَّ الصبرَ مفتاحَ الفرجِ يا صاحبي",
+            "فإنَّ اللهَ معَ الصابرينَ وإنَّ اللهَ لا يضيعُ أجرَ المُحسنين"
+        ],
+        qafiya: "ي",
+        wazn: "مستفعلن فاعلن مستفعلن فاعلن",
+        hints: ["تنتهي بـ 'ي'", "الوزن: متقارب", "فكّر في 'يا صاحبي'"]
+    },
+    {
+        topic: "العلم",
+        difficulty: "medium",
+        aiVerses: [
+            "طلبوا العلمَ من المهدِ إلى اللحدِ فإنَّ العلمَ نورٌ يهدي إلى السدادِ",
+            "ولا تزالُ تعلمُ حتى تُدركَ المنى فإنَّ طلبَ العلمِ فريضةٌ على كلِّ مسلمٍ"
+        ],
+        qafiya: "د",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["تنتهي بـ 'د'", "الوزن: بسيط", "فكّر في 'السداد'"]
+    },
+    {
+        topic: "الوطن",
+        difficulty: "medium",
+        aiVerses: [
+            "يا وطني أنتَ العشقُ الذي لا ينتهي وأنتَ الحبُّ الذي في القلبِ يسري",
+            "فديتُكَ بالروحِ والدمِ يا بلادي وما عزَّ على القلبِ أنْ يُفارقَكَ دُري"
+        ],
+        qafiya: "ي",
+        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
+        hints: ["تنتهي بـ 'ي'", "الوزن: كامل", "فكّر في 'يسري' و 'دري'"]
+    },
+    {
+        topic: "الصداقة",
+        difficulty: "medium",
+        aiVerses: [
+            "الصديقُ الحقُّ نعمةٌ من نعمِ اللهِ فاحفظْهُ كما تحفظُ عينيكَ من الردى",
+            "فإنَّ الصديقَ وقتَ الشدائدِ يُعانِ ولا يخذلكَ حينَ تضيقُ الأرضُ بالعدا"
+        ],
+        qafiya: "ى",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["تنتهي بـ 'ى'", "الوزن: بسيط", "فكّر في 'الردى' و 'العدا'"]
+    },
+    {
+        topic: "العدل",
+        difficulty: "hard",
+        aiVerses: [
+            "العدلُ أساسُ الملكِ وبهِ تَقومُ الدولُ ويَستقرُّ الأمنُ والسلامُ",
+            "فإذا غابَ العدلُ في أرضٍ فاعلمْ أنَّ الظلمَ سيدُها والظلامُ"
+        ],
+        qafiya: "م",
+        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
+        hints: ["تنتهي بـ 'م'", "الوزن: كامل", "فكّر في 'السلام' و 'الظلام'"]
+    },
+    {
+        topic: "الكرم",
+        difficulty: "hard",
+        aiVerses: [
+            "كرِّمْ ضيفَكَ وافتحْ لهُ قلبَكَ فإنَّ الكريمَ يُضيءُ الدنيا بنورِهِ",
+            "ولا تبخلْ بما آتاكَ اللهُ من فضلٍ فإنَّ البخلَ يُطفئُ نارَ السرورِ"
+        ],
+        qafiya: "ر",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["تنتهي بـ 'ر'", "الوزن: بسيط", "فكّر في 'نورِهِ' و 'السرورِ'"]
+    },
+    {
+        topic: "الزمن",
+        difficulty: "hard",
+        aiVerses: [
+            "يا أيها الزمانُ كمْ خدعتَ الناسَ وأوهَمتَهمْ أنَّ الأيامَ تُعادُ",
+            "فلا تثقْ بالزمنِ فإنَّهُ يَنقلبُ في لحظةٍ ويُصبحُ فؤادُ"
+        ],
+        qafiya: "د",
+        wazn: "مفاعلتن فعولن مفاعلتن فعولن",
+        hints: ["تنتهي بـ 'د'", "الوزن: كامل", "فكّر في 'تُعادُ' و 'فؤادُ'"]
+    },
+    {
+        topic: "الفخر",
+        difficulty: "medium",
+        aiVerses: [
+            "نحنُ العربُ أبناءُ الصحراءِ والمجدِ ونحنُ من حملوا الرسالةَ للورى",
+            "فإذا ذكرَ التاريخُ أمجادَنا فاعلمْ أنَّا شمسُ الدنيا ونورُها"
+        ],
+        qafiya: "ى",
+        wazn: "مفاعيلن فعولن مفاعيلن فعولن",
+        hints: ["تنتهي بـ 'ى'", "الوزن: بسيط", "فكّر في 'للورى' و 'ونورُها'"]
+    }
+];
+
+// ==================== قاعدة بيانات الأوزان ====================
+const awzanDB = {
+    "طويل": { pattern: "فعولن مفاعيلن فعولن مفاعيلن", example: "على قدرِ أهلِ العزمِ تأتي العزائمُ" },
+    "بسيط": { pattern: "مفاعيلن فعولن مفاعيلن فعولن", example: "قدِمْتَ زائراً وأنتَ من قومِ نزارٍ" },
+    "متقارب": { pattern: "مستفعلن فاعلن مستفعلن فاعلن", example: "يا دارَ عَبْطةَ بالجُواءِ تَكَلَّمي" },
+    "كامل": { pattern: "مفاعلتن فعولن مفاعلتن فعولن", example: "أَتانِي ذا اللِّسانِ بِمَعْنىً مُبْهَمِ" },
+    "مجتث": { pattern: "مستفعلن مفاعيلن مستفعلن مفاعيلن", example: "يا لائمي في الهوى العذريِّ انْهَضِ" },
+    "متدارك": { pattern: "فاعلن فاعلن فاعلن فاعلن", example: "مدارسُ آياتٍ حَوَتْ تُرَباً" },
+    "سريع": { pattern: "مستفعلن مستفعلن فاعلن", example: "سِرْ بِنَا إلَى اللهِ بِنَا" },
+    "منسرح": { pattern: "مفاعيلن مفاعيلن فاعلاتن", example: "يا لَيْتَ شِعْرِي وَشِعْرِي مَطْلُوبُ" },
+    "خفيف": { pattern: "فاعلاتن مستفعلن فاعلاتن", example: "يا دارَ مَيَّةَ بالعَلْياءِ فَالسَّهْمِ" },
+    "مضارع": { pattern: "مفاعلتن فاعلاتن مفاعلتن", example: "أَلا يا أَيُّهَا السَّاكِنُ فِي هَجَرٍ" }
+};
+
+// ==================== حالة اللعبة ====================
+let gameState = {
+    selectedTime: 30,
+    timeLeft: 30,
+    timerInterval: null,
+    currentTopic: null,
+    score: 0,
+    streak: 0,
+    total: 0,
+    bestStreak: 0,
+    isPlaying: false,
+    hintUsed: false,
+    hintIndex: 0
+};
+
+// ==================== تهيئة الواجهة ====================
+function init() {
+    const grid = document.getElementById('timerGrid');
+    const times = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    times.forEach(t => {
+        const btn = document.createElement('button');
+        btn.className = 'timer-btn' + (t === 30 ? ' selected' : '');
+        btn.textContent = t + ' ثانية';
+        btn.onclick = () => selectTime(t, btn);
+        grid.appendChild(btn);
+    });
+    document.getElementById('gameArea').style.display = 'block';
+}
+
+function selectTime(time, btn) {
+    gameState.selectedTime = time;
+    document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('progressBar').style.width = '100%';
+}
+
+// ==================== بدء اللعبة ====================
+function startGame() {
+    if (gameState.isPlaying) return;
+
+    // اختيار موضوع عشوائي
+    gameState.currentTopic = topicsDB[Math.floor(Math.random() * topicsDB.length)];
+    gameState.isPlaying = true;
+    gameState.hintUsed = false;
+    gameState.hintIndex = 0;
+    gameState.timeLeft = gameState.selectedTime;
+
+    // تحديث الواجهة
+    document.getElementById('topicText').textContent = gameState.currentTopic.topic;
+    document.getElementById('diffBadge').textContent = 
+        gameState.currentTopic.difficulty === 'easy' ? 'سهل' :
+        gameState.currentTopic.difficulty === 'medium' ? 'متوسط' : 'صعب';
+    document.getElementById('diffBadge').className = 'difficulty-badge difficulty-' + gameState.currentTopic.difficulty;
+
+    // عرض بيت الذكاء الاصطناعي
+    const aiArea = document.getElementById('aiArea');
+    const aiVerse = document.getElementById('aiVerse');
+    aiVerse.innerHTML = '<div class="loading"><span></span><span></span><span></span></div>';
+    aiArea.style.display = 'block';
+
+    setTimeout(() => {
+        aiVerse.textContent = gameState.currentTopic.aiVerses.join('
+');
+    }, 1500);
+
+    // تفعيل الأزرار
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('startBtn').textContent = 'جاري اللعب...';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('hintBtn').disabled = false;
+    document.getElementById('skipBtn').disabled = false;
+    document.getElementById('userVerse').disabled = false;
+    document.getElementById('userVerse').value = '';
+    document.getElementById('feedbackArea').style.display = 'none';
+    document.getElementById('hintBox').style.display = 'none';
+
+    // بدء العداد
+    startTimer();
+}
+
+// ==================== العداد الزمني ====================
+function startTimer() {
+    updateTimerDisplay();
+    gameState.timerInterval = setInterval(() => {
+        gameState.timeLeft--;
+        updateTimerDisplay();
+
+        if (gameState.timeLeft <= 0) {
+            clearInterval(gameState.timerInterval);
+            timeUp();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    const circle = document.getElementById('timerCircle');
+    display.textContent = gameState.timeLeft;
+
+    const pct = (gameState.timeLeft / gameState.selectedTime) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    circle.classList.remove('warning', 'danger');
+    if (gameState.timeLeft <= 10) {
+        circle.classList.add('danger');
+    } else if (gameState.timeLeft <= gameState.selectedTime * 0.3) {
+        circle.classList.add('warning');
+    }
+}
+
+function timeUp() {
+    gameState.isPlaying = false;
+    gameState.streak = 0;
+    gameState.total++;
+    updateStats();
+
+    showFeedback('error', '⏰ انتهى الوقت!', [
+        'لم تتمكن من الرد في الوقت المحدد',
+        'الموضوع: ' + gameState.currentTopic.topic,
+        'القافية المطلوبة: ' + gameState.currentTopic.qafiya,
+        'الوزن: ' + gameState.currentTopic.wazn
+    ]);
+
+    resetControls();
+}
+
+// ==================== إرسال الرد ====================
+function submitVerse() {
+    if (!gameState.isPlaying) return;
+
+    const userText = document.getElementById('userVerse').value.trim();
+    if (!userText) {
+        alert('اكتب بيتين أولاً!');
+        return;
+    }
+
+    clearInterval(gameState.timerInterval);
+    gameState.isPlaying = false;
+    gameState.total++;
+
+    const analysis = analyzeVerse(userText, gameState.currentTopic);
+
+    if (analysis.isCorrect) {
+        // نجاح
+        const timeBonus = Math.floor(gameState.timeLeft / 5);
+        const difficultyMultiplier = 
+            gameState.currentTopic.difficulty === 'easy' ? 1 :
+            gameState.currentTopic.difficulty === 'medium' ? 2 : 3;
+        const hintPenalty = gameState.hintUsed ? 0.5 : 1;
+
+        const points = Math.round((10 + timeBonus) * difficultyMultiplier * hintPenalty);
+        gameState.score += points;
+        gameState.streak++;
+        if (gameState.streak > gameState.bestStreak) gameState.bestStreak = gameState.streak;
+
+        showFeedback('success', '🎉 أحسنت! رد صحيح!', [
+            'النقاط: +' + points,
+            'الوقت المتبقي: ' + gameState.timeLeft + ' ثانية',
+            'القافية: ' + analysis.qafiyaMatch + ' ✓',
+            'الوزن: ' + analysis.waznMatch + ' ✓',
+            'عدد الأبيات: ' + analysis.lineCount + ' ✓'
+        ]);
+
+        createConfetti();
+    } else {
+        // فشل
+        gameState.streak = 0;
+        showFeedback('error', '❌ فيه أخطاء', analysis.errors);
+    }
+
+    updateStats();
+    resetControls();
+}
+
+// ==================== تحليل البيت (الذكاء الاصطناعي المحاكي) ====================
+function analyzeVerse(text, topic) {
+    const lines = text.split('
+').filter(l => l.trim().length > 0);
+    const errors = [];
+    let isCorrect = true;
+
+    // التحقق من عدد الأبيات
+    if (lines.length < 2) {
+        errors.push('يجب أن تكتب بيتين (سطرين) على الأقل');
+        isCorrect = false;
+    }
+    if (lines.length > 2) {
+        errors.push('المطلوب بيتان فقط، كتبت ' + lines.length);
+        isCorrect = false;
+    }
+
+    // التحقق من القافية
+    const lastChars = lines.map(l => {
+        const clean = l.replace(/[ً-ٰٟ]/g, '').trim();
+        return clean.charAt(clean.length - 1);
+    });
+
+    const qafiyaMatch = lastChars.every(c => c === topic.qafiya);
+    if (!qafiyaMatch) {
+        errors.push('القافية غير صحيحة. القافية المطلوبة: "' + topic.qafiya + '"، لكنك انتهيت بـ: ' + lastChars.join(', '));
+        isCorrect = false;
+    }
+
+    // التحقق من الوزن (تقريبي)
+    const waznMatch = checkWaznApproximate(text, topic.wazn);
+    if (!waznMatch) {
+        errors.push('الوزن غير متطابق. الوزن المطلوب: ' + topic.wazn);
+        errors.push('مثال على الوزن: ' + getWaznExample(topic.wazn));
+        isCorrect = false;
+    }
+
+    // التحقق من الطول
+    lines.forEach((line, i) => {
+        const words = line.trim().split(/\s+/);
+        if (words.length < 6) {
+            errors.push('البيت ' + (i+1) + ' قصير جداً (يجب 6 كلمات على الأقل)');
+            isCorrect = false;
+        }
+        if (words.length > 15) {
+            errors.push('البيت ' + (i+1) + ' طويل جداً');
+            isCorrect = false;
+        }
+    });
+
+    return {
+        isCorrect,
+        errors,
+        qafiyaMatch: qafiyaMatch ? 'مطابقة' : 'غير مطابقة',
+        waznMatch: waznMatch ? 'مطابق' : 'غير مطابق',
+        lineCount: lines.length
+    };
+}
+
+function checkWaznApproximate(text, expectedWazn) {
+    // تحليل تقريبي للوزن بناءً على عدد المقاطع الصوتية
+    const lines = text.split('
+').filter(l => l.trim());
+    if (lines.length < 2) return false;
+
+    // عدد الحركات في كل سطر (تقريبي)
+    const syllableCounts = lines.map(line => {
+        let count = 0;
+        const chars = line.replace(/[\sً-ٰٟ]/g, '');
+        for (let i = 0; i < chars.length; i++) {
+            const c = chars[i];
+            if ('اويى'.includes(c)) count++;
+            else if (!'ءآأإة'.includes(c)) count++;
+        }
+        return count;
+    });
+
+    // الوزن الطويل يحتاج ~24-28 حركة
+    // الوزن البسيط يحتاج ~20-24 حركة
+    // الوزن المتقارب يحتاج ~16-20 حركة
+
+    const avgSyllables = syllableCounts.reduce((a, b) => a + b, 0) / syllableCounts.length;
+
+    if (expectedWazn.includes('طويل') && avgSyllables >= 22) return true;
+    if (expectedWazn.includes('بسيط') && avgSyllables >= 18 && avgSyllables < 24) return true;
+    if (expectedWazn.includes('متقارب') && avgSyllables >= 14 && avgSyllables < 20) return true;
+    if (expectedWazn.includes('كامل') && avgSyllables >= 20 && avgSyllables < 26) return true;
+
+    return avgSyllables >= 12; // قبول عام
+}
+
+function getWaznExample(wazn) {
+    for (const [name, data] of Object.entries(awzanDB)) {
+        if (wazn.includes(data.pattern)) return data.example;
+    }
+    return 'على قدرِ أهلِ العزمِ تأتي العزائمُ';
+}
+
+// ==================== التلميح ====================
+function showHint() {
+    if (!gameState.isPlaying || gameState.hintUsed) return;
+
+    const hints = gameState.currentTopic.hints;
+    if (gameState.hintIndex < hints.length) {
+        const hintBox = document.getElementById('hintBox');
+        hintBox.textContent = '💡 ' + hints[gameState.hintIndex];
+        hintBox.style.display = 'block';
+        gameState.hintIndex++;
+        gameState.hintUsed = true;
+
+        if (gameState.hintIndex >= hints.length) {
+            document.getElementById('hintBtn').disabled = true;
+        }
+    }
+}
+
+// ==================== تخطي الجولة ====================
+function skipRound() {
+    if (!gameState.isPlaying) return;
+    clearInterval(gameState.timerInterval);
+    gameState.isPlaying = false;
+    gameState.streak = 0;
+    gameState.total++;
+
+    showFeedback('error', '⏭️ تم التخطي', [
+        'الموضوع: ' + gameState.currentTopic.topic,
+        'القافية: ' + gameState.currentTopic.qafiya,
+        'الوزن: ' + gameState.currentTopic.wazn,
+        'جرب مرة أخرى!'
+    ]);
+
+    updateStats();
+    resetControls();
+}
+
+// ==================== عرض التقييم ====================
+function showFeedback(type, title, details) {
+    const feedback = document.getElementById('feedbackArea');
+    const titleEl = document.getElementById('feedbackTitle');
+    const detailsEl = document.getElementById('feedbackDetails');
+
+    feedback.className = 'feedback ' + type;
+    titleEl.textContent = title;
+
+    if (Array.isArray(details)) {
+        detailsEl.innerHTML = '<ul>' + details.map(d => '<li>' + d + '</li>').join('') + '</ul>';
+    } else {
+        detailsEl.textContent = details;
+    }
+
+    feedback.style.display = 'block';
+}
+
+// ==================== إعادة تعيين الأزرار ====================
+function resetControls() {
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('startBtn').textContent = 'جولة جديدة';
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('hintBtn').disabled = true;
+    document.getElementById('skipBtn').disabled = true;
+    document.getElementById('userVerse').disabled = true;
+}
+
+// ==================== تحديث الإحصائيات ====================
+function updateStats() {
+    document.getElementById('scoreVal').textContent = gameState.score;
+    document.getElementById('streakVal').textContent = gameState.streak;
+    document.getElementById('totalVal').textContent = gameState.total;
+    document.getElementById('bestVal').textContent = gameState.bestStreak;
+
+    // النجوم
+    const stars = Math.min(5, Math.floor(gameState.streak / 2));
+    document.getElementById('starsDisplay').innerHTML = '⭐'.repeat(stars) + (stars === 0 ? '☆☆☆☆☆' : '');
+}
+
+// ==================== تأثيرات ====================
+function createConfetti() {
+    const colors = ['#e94560', '#ff6b6b', '#ffd700', '#2ecc71', '#3498db', '#9b59b6'];
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+    }
+}
+
+// ==================== بدء التطبيق ====================
+window.onload = init;
+</script>
+
+</body>
+</html>
