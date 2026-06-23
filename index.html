@@ -652,6 +652,7 @@ body {
 }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -899,7 +900,7 @@ function renderPlayers() {
         const isReal = onlinePlayers.some(op => op.name === p.name);
         const card = document.createElement('div');
         card.className = 'player-card';
-        card.innerHTML = '<div class="player-avatar">' + p.avatar + '</div><div class="player-info"><div class="player-name">' + p.name + (isReal ? ' <span style="color:#2ecc71; font-size:0.8rem;">● حقيقي</span>' : '') + '</div><div class="player-status online">متصل</div></div><button class="challenge-btn" onclick="challengePlayer('' + p.name + '')">تحدي</button>';
+        card.innerHTML = '<div class="player-avatar">' + p.avatar + '</div><div class="player-info"><div class="player-name">' + p.name + (isReal ? ' <span style="color:#2ecc71; font-size:0.8rem;">● حقيقي</span>' : '') + '</div><div class="player-status online">متصل</div></div><button class="challenge-btn" onclick="challengePlayer(' + "'" + p.name + "'" + ')">تحدي</button>';
         list.appendChild(card);
     });
 }
@@ -926,7 +927,7 @@ function renderCalls() {
         const isReal = onlinePlayers.some(op => op.name === p.name);
         const card = document.createElement('div');
         card.className = 'player-card';
-        card.innerHTML = '<div class="player-avatar">' + p.avatar + '</div><div class="player-info"><div class="player-name">' + p.name + (isReal ? ' <span style="color:#2ecc71; font-size:0.8rem;">● حقيقي</span>' : '') + '</div><div class="player-status online">متصل</div></div><button class="challenge-btn" onclick="startCall('' + p.name + '', '' + p.avatar + '')">📞 اتصال</button>';
+        card.innerHTML = '<div class="player-avatar">' + p.avatar + '</div><div class="player-info"><div class="player-name">' + p.name + (isReal ? ' <span style="color:#2ecc71; font-size:0.8rem;">● حقيقي</span>' : '') + '</div><div class="player-status online">متصل</div></div><button class="challenge-btn" onclick="startCall(' + "'" + p.name + "'" + ',' + "'" + p.avatar + "'" + ')">📞 اتصال</button>';
         list.appendChild(card);
     });
 }
@@ -1147,13 +1148,16 @@ function createConfetti() {
     }
 }
 
-// تحقق من تسجيل الدخول السابق
+// تحقق من تسجيل الدخول السابق - مصحح
 window.onload = function() {
     const savedName = localStorage.getItem('poetryUserName');
     if (savedName) {
         gameState.userName = savedName;
-        document.getElementById('userNameInput').value = savedName;
-        login();
+        addOnlinePlayer(savedName);
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainScreen').classList.remove('hidden');
+        document.getElementById('userBadge').textContent = savedName;
+        init();
     }
 };
 </script>
